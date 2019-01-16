@@ -1,20 +1,30 @@
+import sys
 import random
 
 digits = ['-'] * 9
 sign = ''
+sign2 = ''
+player1 = ''
+player2 = ''
+won = False
 
-def display_board(digits):
+
+def display_board(board):
     print('\n' * 100)
-    print(digits[8] + '|' + digits[7] + '|' + digits[6])
-    print(digits[5] + '|' + digits[4] + '|' + digits[3])
-    print(digits[2] + '|' + digits[1] + '|' + digits[0])
+    print(board[8] + '|' + board[7] + '|' + board[6])
+    print(board[5] + '|' + board[4] + '|' + board[3])
+    print(board[2] + '|' + board[1] + '|' + board[0])
+    win_check(digits, sign2)
 
 # TEST
 # test_board = ['#','X','O','X','O','X','O','X','O','X']
 # display_board(test_board)
 
+
 def player_input():
     marker = ''
+    global player1
+    global player2
 
     while marker != 'X' and marker != 'O':
         print("Player 1:")
@@ -28,13 +38,10 @@ def player_input():
         player1 = 'O'
         player2 = 'X'
 
-    return player1, player2
 
-# player_input()
+def place_marker(board, marker, position):
+    board[position - 1] = marker
 
-def place_marker(digits, marker, position):
-    digits[position - 1] = marker
-    return digits
 
 # Test
 # place_marker(digits,'X',1)
@@ -42,64 +49,76 @@ def place_marker(digits, marker, position):
 # place_marker(digits,'X',7)
 # display_board(digits)
 
+
 def win_check(board, mark):
     score = ''
-    if full_board_check(board):
-        for i in board:
-            if i == mark:
-                score += '1'
-            else:
-                score += '0'
+    global won
+    for i in board:
+        if i == mark:
+            score += '1'
+        else:
+            score += '0'
 
-        if score[:3] == '111' \
-                or score[3:7] == '111' \
-                or score[7:10] == '111' \
-                or score[0:10:3] == '111' \
-                or score[1:10:3] == '11' \
-                or score[2:10:3]:
-            print(mark + ' wins')
+    if score[:3] == '111' \
+            or score[3:6] == '111' \
+            or score[6:9] == '111' \
+            or score[0:9:3] == '111' \
+            or score[1:9:3] == '111' \
+            or score[2:9:3] == '111' \
+            or score[0:9:4] == '111' \
+            or score[2:7:2] == '111':
+        print(mark + ' wins')
+
+        won = True
 
 
 # win_check(digits,'X')
 
 
 def choose_first():
-    return ['Player1', 'Player2'][random.randint(0,1)]
+    return ['Player1', 'Player2'][random.randint(0, 1)]
 
-# print(choose_first())
 
 def space_check(board, position):
     return board[position - 1] == '-'
 
+
 def full_board_check(board):
     return '-' not in board
 
+
 def player_choice(board):
     turn = 'unfinished'
-
+    global sign
+    global sign2
     while turn != 'finished':
-        position = int(input("“Where do you want put your marker?”"))
-        if not space_check(board, position):
+        position = int(input(f"“Where do you want to place {sign}?”"))
+        if space_check(board, position):
             place_marker(digits, sign, position)
             if sign == 'X':
                 sign = 'O'
-                return sign
+                sign2 = 'X'
+                turn = 'finished'
+                # return sign
             else:
                 sign = 'X'
-                return sign
+                sign2 = 'O'
+                turn = 'finished'
+        else:
+            turn = 'finished'
 
 
 def replay():
     print("Would you like to play again?")
-    x = input("Enter 1 to play or 2 to stop")
+    x = int(input("Enter 1 to play or 2 to stop"))
     return x == 1
 
 
 while True:
     print("Welcome to TICTACTOE")
 
-    players = player_input()
-
+    player_input()
+    display_board(digits)
     if choose_first() == 'Player1':
         print('Player1, you go first')
         sign = 'X'
@@ -110,23 +129,30 @@ while True:
     game_on = True
 
     while game_on:
-        display_board(digits)
         player_choice(digits)
+        display_board(digits)
 
-        if win_check(digits,'X') == True or win_check(digits,'O') == True:
+        if full_board_check(digits):
+            print('It is a tie!')
             if not replay():
+                sys.exit("Thanks for playing")
+            else:
+                digits = ['-'] * 9
+                sign = ''
+                sign2 = ''
+                player1 = ''
+                player2 = ''
+                won = False
                 break
 
-# Set the game up here
-# pass
-
-# while game_on:
-# Player 1 Turn
-
-
-# Player2's turn.
-
-# pass
-
-# if not replay():
-# break
+        if won:
+            if not replay():
+                sys.exit("Thanks for playing")
+            else:
+                digits = ['-'] * 9
+                sign = ''
+                sign2 = ''
+                player1 = ''
+                player2 = ''
+                won = False
+                break
