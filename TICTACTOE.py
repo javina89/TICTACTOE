@@ -92,20 +92,24 @@ def player_choice(board):
     global sign
     global sign2
     while turn != 'finished':
-        position = int(input(f"“Where do you want to place {sign}?”"))
+        try:
+            position = int(input(f"“Where do you want to place {sign}?”"))
+        except ValueError:
+            print("Press numbers 1 - 9")
+            continue
         if space_check(board, position):
             place_marker(digits, sign, position)
             if sign == 'X':
                 sign = 'O'
                 sign2 = 'X'
                 turn = 'finished'
-                # return sign
             else:
                 sign = 'X'
                 sign2 = 'O'
                 turn = 'finished'
         else:
             turn = 'finished'
+
 
 
 def replay():
