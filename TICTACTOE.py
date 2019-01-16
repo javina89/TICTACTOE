@@ -11,9 +11,15 @@ won = False
 
 def display_board(board):
     print('\n' * 100)
+    print("Type a number to place X or O in that spot")
+    print('9' + '|' + '8' + '|' + '7')
+    print('6' + '|' + '5' + '|' + '4')
+    print('3' + '|' + '2' + '|' + '1')
+    print('\n' * 1)
     print(board[8] + '|' + board[7] + '|' + board[6])
     print(board[5] + '|' + board[4] + '|' + board[3])
     print(board[2] + '|' + board[1] + '|' + board[0])
+    print('\n' * 1)
     win_check(digits, sign2)
 
 # TEST
@@ -109,7 +115,6 @@ def player_choice(board):
                 turn = 'finished'
         else:
             turn = 'finished'
-
 
 
 def replay():
