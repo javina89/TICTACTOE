@@ -1,17 +1,16 @@
 def display_board(board):
     print('\n' * 100)
     print("Type a number to place X or O in that spot")
-    print('9' + '|' + '8' + '|' + '7' + '\t' + board[8] + '|' + board[7] + '|' + board[6])
-    print('6' + '|' + '5' + '|' + '4' + '\t' + board[5] + '|' + board[4] + '|' + board[3])
-    print('3' + '|' + '2' + '|' + '1' + '\t' + board[2] + '|' + board[1] + '|' + board[0])
-    print('\n' * 1)
+    print('9' + '|' + '8' + '|' + '7' + '\t\033[33m' + board[8] + '|' + board[7] + '|' + board[6] + '\033[0m')
+    print('6' + '|' + '5' + '|' + '4' + '\t\033[33m' + board[5] + '|' + board[4] + '|' + board[3] + '\033[0m')
+    print('3' + '|' + '2' + '|' + '1' + '\t\033[33m' + board[2] + '|' + board[1] + '|' + board[0] + '\033[0m')
 
 
 def decide():
     spot = 100
     while spot not in range(1, 10):
         try:
-            spot = int(input("“What space will you choose?”"))
+            spot = int(input("\033[91m“What space will you choose?”\033[0m"))
         except ValueError:
             print("Press numbers 1 - 9")
             continue
