@@ -11,13 +11,17 @@ def display_board(board):
     print('\n' * 1)
 
 
-def decide(board):
-    spot = ''
-    move_on = ''
-    while spot not in range(0, 9) and move_on is not '1':
-        spot = int(input("“What space will you choose?”"))
-        if board[spot] == '-':
-            move_on = '1'
+def decide():
+    spot = 100
+    while spot not in range(1, 10):
+        try:
+            spot = int(input("“What space will you choose?”"))
+        except ValueError:
+            print("Press numbers 1 - 9")
+            continue
+        except IndexError:
+            print("Press numbers 1 - 9")
+            continue
     return spot
 
 
@@ -54,8 +58,9 @@ while True:
         display_board(digits)
         counter += 1
         sign = ['X', 'O'][counter % 2]
-        position = decide(digits)
-        digits[position - 1] = sign
+        position = decide()
+        if digits[position - 1] == '-':
+            digits[position - 1] = sign
         win_check(digits)
     if not input('Would you like to play again? Type yes or no').lower().startswith('y'):
         break
