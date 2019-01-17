@@ -13,13 +13,12 @@ def display_board(board):
 
 def decide(board):
     spot = ''
-    while spot not in range(0, 9) or board[spot] != '-':
-        try:
-            spot = int(input("“What space will you choose?”"))
-        except ValueError:
-            print("Press numbers 1 - 9")
-            continue
-        return spot
+    move_on = ''
+    while spot not in range(0, 9) and move_on is not '1':
+        spot = int(input("“What space will you choose?”"))
+        if board[spot] == '-':
+            move_on = '1'
+    return spot
 
 
 def win_check(board):
@@ -48,21 +47,15 @@ def win_check(board):
 
 while True:
     print("Welcome to Tic-Tac-Toe")
+    counter = 0
     digits = ['-'] * 9
-    turn = True
     playing = True
     while playing:
         display_board(digits)
-        if turn:
-            sign = 'X'
-            position = decide(digits)
-            digits[position - 1] = sign
-            win_check(digits)
-        else:
-            sign = 'O'
-            display_board(digits)
-            position = decide(digits)
-            digits[position - 1] = sign
-            win_check(digits)
+        counter += 1
+        sign = ['X', 'O'][counter % 2]
+        position = decide(digits)
+        digits[position - 1] = sign
+        win_check(digits)
     if not input('Would you like to play again? Type yes or no').lower().startswith('y'):
         break
