@@ -1,16 +1,16 @@
 def display_board(board):
     print('\n' * 100)
     print("Type a number to place X or O in that spot")
-    print('9' + '|' + '8' + '|' + '7' + '\t\033[33m' + board[8] + '|' + board[7] + '|' + board[6] + '\033[0m')
-    print('6' + '|' + '5' + '|' + '4' + '\t\033[33m' + board[5] + '|' + board[4] + '|' + board[3] + '\033[0m')
-    print('3' + '|' + '2' + '|' + '1' + '\t\033[33m' + board[2] + '|' + board[1] + '|' + board[0] + '\033[0m')
+    print('9' + '|' + '8' + '|' + '7' + '\t' + board[8] + '|' + board[7] + '|' + board[6])
+    print('6' + '|' + '5' + '|' + '4' + '\t' + board[5] + '|' + board[4] + '|' + board[3])
+    print('3' + '|' + '2' + '|' + '1' + '\t' + board[2] + '|' + board[1] + '|' + board[0])
 
 
 def decide():
     spot = 100
     while spot not in range(1, 10):
         try:
-            spot = int(input("\033[91m“What space will you choose?”\033[0m"))
+            spot = int(input("“What space will you choose?”"))
         except ValueError:
             print("Press numbers 1 - 9")
             continue
@@ -45,9 +45,9 @@ while True:
     print("Welcome to Tic-Tac-Toe")
     counter = 0
     digits = ['-'] * 9
+    display_board(digits)
     playing = True
     while playing:
-        display_board(digits)
         counter += 1
         sign = ['X', 'O'][counter % 2]
         position = decide()
@@ -56,5 +56,6 @@ while True:
         else:
             counter -= 1
         win_check(digits)
+        display_board(digits)
     if not input('Would you like to play again? Type yes or no').lower().startswith('y'):
         break
