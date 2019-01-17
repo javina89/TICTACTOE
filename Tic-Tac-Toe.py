@@ -58,6 +58,8 @@ while True:
         position = decide()
         if digits[position - 1] == '-':
             digits[position - 1] = sign
+        else:
+            counter -= 1
         win_check(digits)
     if not input('Would you like to play again? Type yes or no').lower().startswith('y'):
         break
