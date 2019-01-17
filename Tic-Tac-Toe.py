@@ -19,9 +19,6 @@ def decide():
         except ValueError:
             print("Press numbers 1 - 9")
             continue
-        except IndexError:
-            print("Press numbers 1 - 9")
-            continue
     return spot
 
 
