@@ -6,22 +6,17 @@ def display_board(board):
 
 
 def decide():
-    spot = 100
-    while spot not in range(1, 10):
-        try:
-            spot = int(input("“What space will you choose?”"))
-        except ValueError:
-            print("Press numbers 1 - 9")
-            continue
-    return spot
+    spot = ''
+    while spot not in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
+        spot = (input("“What space will you choose?”"))
+    return int(spot)
 
 
-def win_check(board):
-    global sign
+def win_check(board, _sign):
     global playing
     score = ''
     for i in board:
-        score += str([0, 1][i == sign])
+        score += str([0, 1][i == _sign])
     if '-' not in board:
         print('Tied!')
         playing = False
@@ -47,7 +42,7 @@ while True:
             digits[position - 1] = sign
         else:
             counter -= 1
-        win_check(digits)
+        win_check(digits, sign)
         display_board(digits)
     if not input('Would you like to play again? Type yes or no').lower().startswith('y'):
         break
