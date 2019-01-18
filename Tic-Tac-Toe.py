@@ -1,8 +1,6 @@
-def display_board(board):
+def display_board(b):
     print("Type a number to place X or O in that spot")
-    print('9' + '|' + '8' + '|' + '7' + '\t' + board[8] + '|' + board[7] + '|' + board[6])
-    print('6' + '|' + '5' + '|' + '4' + '\t' + board[5] + '|' + board[4] + '|' + board[3])
-    print('3' + '|' + '2' + '|' + '1' + '\t' + board[2] + '|' + board[1] + '|' + board[0])
+    print(f'9|8|7\t{b[8]}|{b[7]}|{b[6]}\n6|5|4\t{b[5]}|{b[4]}|{b[3]}\n3|2|1\t{b[2]}|{b[1]}|{b[0]}\n')
 
 
 def decide():
