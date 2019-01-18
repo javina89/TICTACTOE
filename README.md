@@ -9,4 +9,4 @@ efficient I could make this game from scratch while still appearing neat and rea
 What helped in making this game more efficient was the knowledge I learned in taking
 challenges from edabit and challenging real players in SoloLearn.
 
-For any questions or comments, feel free to visit [jesusavina.com](jesusavina.com)
+For any questions or comments, feel free to visit [jesusavina.com](https://jesusavina.com)
