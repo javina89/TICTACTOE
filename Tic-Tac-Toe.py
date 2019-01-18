@@ -17,9 +17,8 @@ def win_check(board, _sign):
     if '-' not in board:
         print('Tied!')
         playing = False
-    win_combos = {'1': score[2:9:3], '2': score[3:6], '3': score[0:9:3], '4': score[2:7:2],
-                  '5': score[1:9:3], '6': score[6:9], '7': score[0:9:4], '8': score[:3]}
-    for i in win_combos.values():
+    match = [score[2:9:3], score[3:6], score[0:9:3], score[2:7:2], score[1:9:3], score[6:9], score[0:9:4], score[:3]]
+    for i in match:
         if i == '111':
             print(sign + ' wins')
             playing = False
