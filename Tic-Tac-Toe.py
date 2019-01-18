@@ -25,19 +25,19 @@ def win_check(board, _sign):
 
 
 while True:
-    counter = 0
+    turn = 0
     digits = ['-'] * 9
     display_board(digits)
     playing = True
     while playing:
-        counter += 1
-        sign = ['X', 'O'][counter % 2]
+        turn += 1
+        sign = ['X', 'O'][turn % 2]
         position = decide()
         if digits[position - 1] == '-':
             digits[position - 1] = sign
         else:
-            counter -= 1
-        win_check(digits, sign)
+            turn -= 1
         display_board(digits)
+        win_check(digits, sign)
     if not input('Would you like to play again? Type yes or no').lower().startswith('y'):
         break
