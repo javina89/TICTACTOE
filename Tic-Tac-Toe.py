@@ -1,12 +1,11 @@
 def display_board(b):
-    print("Type a number to place X or O in that spot")
     print(f'9|8|7\t{b[8]}|{b[7]}|{b[6]}\n6|5|4\t{b[5]}|{b[4]}|{b[3]}\n3|2|1\t{b[2]}|{b[1]}|{b[0]}\n')
 
 
 def decide():
     spot = ''
     while spot not in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
-        spot = (input("“What space will you choose?”"))
+        spot = (input("“Type a number to place X or O”"))
     return int(spot)
 
 
@@ -27,7 +26,6 @@ def win_check(board, _sign):
 
 
 while True:
-    print("Welcome to Tic-Tac-Toe")
     counter = 0
     digits = ['-'] * 9
     display_board(digits)
