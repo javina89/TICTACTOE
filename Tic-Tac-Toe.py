@@ -18,10 +18,9 @@ def win_check(board, _sign):
         print('Tied!')
         playing = False
     match = [score[2:9:3], score[3:6], score[0:9:3], score[2:7:2], score[1:9:3], score[6:9], score[0:9:4], score[:3]]
-    for i in match:
-        if i == '111':
-            print(sign + ' wins')
-            playing = False
+    if set(match) & {'111'}:
+        print(sign + ' wins')
+        playing = False
 
 
 while True:
