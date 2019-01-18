@@ -1,5 +1,4 @@
 def display_board(board):
-    print('\n' * 100)
     print("Type a number to place X or O in that spot")
     print('9' + '|' + '8' + '|' + '7' + '\t' + board[8] + '|' + board[7] + '|' + board[6])
     print('6' + '|' + '5' + '|' + '4' + '\t' + board[5] + '|' + board[4] + '|' + board[3])
@@ -22,23 +21,16 @@ def win_check(board):
     global playing
     score = ''
     for i in board:
-        if i == sign:
-            score += '1'
-        else:
-            score += '0'
+        score += str([0, 1][i == sign])
     if '-' not in board:
         print('Tied!')
         playing = False
-    if score[:3] == '111' \
-            or score[3:6] == '111' \
-            or score[6:9] == '111' \
-            or score[0:9:3] == '111' \
-            or score[1:9:3] == '111' \
-            or score[2:9:3] == '111' \
-            or score[0:9:4] == '111' \
-            or score[2:7:2] == '111':
-        print(sign + ' wins')
-        playing = False
+    win_combos = {'6': score[2:9:3], '2': score[3:6], '4': score[0:9:3], '8': score[2:7:2],
+                  '5': score[1:9:3], '3': score[6:9], '7': score[0:9:4], '1': score[:3]}
+    for i in win_combos.values():
+        if i == '111':
+            print(sign + ' wins')
+            playing = False
 
 
 while True:
