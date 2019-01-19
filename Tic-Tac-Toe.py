@@ -11,14 +11,13 @@ def decide():
 
 def win_check(board, _sign):
     global playing
-    score = ''
+    xo = ''
     for i in board:
-        score += str([0, 1][i == _sign])
+        xo += str([0, 1][i == _sign])
     if '-' not in board:
         print('Tied!')
         playing = False
-    match = [score[2:9:3], score[3:6], score[0:9:3], score[2:7:2], score[1:9:3], score[6:9], score[0:9:4], score[:3]]
-    if set(match) & {'111'}:
+    if {xo[2:9:3], xo[3:6], xo[0:9:3], xo[2:7:2], xo[1:9:3], xo[6:9], xo[0:9:4], xo[:3]} & {'111'}:
         print(sign + ' wins')
         playing = False
 
