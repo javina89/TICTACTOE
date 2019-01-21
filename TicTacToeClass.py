@@ -65,7 +65,7 @@ class Player:
     def take_input(self):
         spot = ''
         while spot not in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
-            spot = (input(f"“Type a number to place {self.name}”"))
+            spot = (input(f"“Type a number to place {self.name}” "))
         return int(spot)
 
 
