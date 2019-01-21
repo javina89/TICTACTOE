@@ -1,3 +1,6 @@
+import textwrap
+
+
 class Board:
     def __init__(self, space):
         self.space = space
@@ -5,13 +8,27 @@ class Board:
         self.game = True
 
     def __str__(self):
-        return f'9|8|7\t{self.state[8]}|{self.state[7]}|{self.state[6]}\n' \
-               f'6|5|4\t{self.state[5]}|{self.state[4]}|{self.state[3]}\n' \
-               f'3|2|1\t{self.state[2]}|{self.state[1]}|{self.state[0]}\n'
+        return textwrap.dedent(f"""
+            9|8|7\t{self.state[8]}|{self.state[7]}|{self.state[6]}
+            6|5|4\t{self.state[5]}|{self.state[4]}|{self.state[3]}
+            3|2|1\t{self.state[2]}|{self.state[1]}|{self.state[0]}
+        """)
 
     def change_state(self, move, name):
         if self.state[move - 1] == '-':
             self.state[move - 1] = name
+            print(self)
+            return True
+        else:
+            return False
+
+    def run(self, player1, player2):
+        print(self)
+        while self.game:
+            while not player1.make_move(player1.take_input(), self):
+                print("Invalid move, try again")
+            win(self, player1, player2)
+            player1, player2 = player2, player1
 
     def exit_game(self):
         self.game = False
@@ -21,9 +38,8 @@ class Player:
     def __init__(self, name):
         self.name = name
 
-    @staticmethod
-    def make_move(move, name, board):
-        board.change_state(move, name)
+    def make_move(self, move, board):
+        return board.change_state(move, self.name)
 
     def take_input(self):
         spot = ''
@@ -48,14 +64,4 @@ def win(board, name1, name2):
 ttt = Board('-')
 x = Player('X')
 o = Player('O')
-
-while ttt.game:
-    print(ttt)
-    x.make_move(x.take_input(), 'X', ttt)
-    win(ttt, x, o)
-    if not ttt.game:
-        print(ttt)
-        break
-    print(ttt)
-    o.make_move(o.take_input(), 'O', ttt)
-    win(ttt, x, o)
+ttt.run(x, o)
