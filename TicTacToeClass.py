@@ -49,10 +49,7 @@ class Board:
             return None
 
     def tie(self):
-        if '-' not in self.state:
-            return True
-        else:
-            return False
+        return '-' not in self.state
 
     def exit_game(self):
         self.game = False
