@@ -9,6 +9,7 @@ efficient I could make this game from scratch while still appearing neat and rea
 What helped in making this game more efficient was the knowledge I learned in taking
 challenges from edabit and challenging real players in SoloLearn.
 
-Update: The TicTacToeClass file is the same game written using object oriented programming (Classes).
+Update: The TicTacToeClass file is the same game written with scalability and using object 
+oriented programming (Classes).
 
 For any questions or comments, feel free to visit [jesusavina.com](https://jesusavina.com)
