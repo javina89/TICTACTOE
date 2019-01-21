@@ -33,6 +33,7 @@ class Board:
             if self.tie():
                 print('Tied')
                 self.exit_game()
+            # Change turns
             player1, player2 = player2, player1
 
     def win(self, player1, player2):
