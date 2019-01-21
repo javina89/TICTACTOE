@@ -6,6 +6,7 @@ class Board:
         self.space = space
         self.state = [self.space] * 9
         self.game = True
+        self.queue = []
 
     def __str__(self):
         return textwrap.dedent(f"""
@@ -21,30 +22,31 @@ class Board:
         else:
             return False
 
-    def run(self, player1, player2):
+    def run(self):
         print(self)
         while self.game:
-            while not player1.make_move(player1.take_input(), self):
+            while not self.queue[0].make_move(self.queue[0].take_input(), self):
                 print("Invalid move, try again")
             print(self)
-            if self.win(player1, player2):
-                print(self.win(player1, player2) + 'wins')
+            if self.win():
+                print(self.win() + 'wins')
                 self.exit_game()
             if self.tie():
                 print('Tied')
                 self.exit_game()
-            # Change turns
-            player1, player2 = player2, player1
+            self.change_turn()
 
-    def win(self, player1, player2):
-        for name in [player1.name, player2.name]:
-            xo = ''
-            for i in self.state:
-                xo += str([0, 1][i == name])
-            if {xo[2:9:3], xo[3:6], xo[0:9:3], xo[2:7:2], xo[1:9:3], xo[6:9], xo[0:9:4], xo[:3]} & {'111'}:
-                return name
-            else:
-                return None
+    def change_turn(self):
+        self.queue.append(self.queue.pop(0))
+
+    def win(self):
+        xo = ''
+        for i in self.state:
+            xo += str([0, 1][i == self.queue[0].name])
+        if {xo[2:9:3], xo[3:6], xo[0:9:3], xo[2:7:2], xo[1:9:3], xo[6:9], xo[0:9:4], xo[:3]} & {'111'}:
+            return self.queue[0].name
+        else:
+            return None
 
     def tie(self):
         if '-' not in self.state:
@@ -57,8 +59,9 @@ class Board:
 
 
 class Player:
-    def __init__(self, name):
+    def __init__(self, name, board):
         self.name = name
+        board.queue.append(self)
 
     def make_move(self, move, board):
         return board.change_state(move, self.name)
@@ -71,6 +74,6 @@ class Player:
 
 
 ttt = Board('-')
-x = Player('X')
-o = Player('O')
-ttt.run(x, o)
+x = Player('X', ttt)
+o = Player('O', ttt)
+ttt.run()
