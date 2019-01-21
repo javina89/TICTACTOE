@@ -17,7 +17,6 @@ class Board:
     def change_state(self, move, name):
         if self.state[move - 1] == '-':
             self.state[move - 1] = name
-            print(self)
             return True
         else:
             return False
@@ -27,8 +26,30 @@ class Board:
         while self.game:
             while not player1.make_move(player1.take_input(), self):
                 print("Invalid move, try again")
-            win(self, player1, player2)
+            print(self)
+            if self.win(player1, player2):
+                print(self.win(player1, player2) + 'wins')
+                self.exit_game()
+            if self.tie():
+                print('Tied')
+                self.exit_game()
             player1, player2 = player2, player1
+
+    def win(self, player1, player2):
+        for name in [player1.name, player2.name]:
+            xo = ''
+            for i in self.state:
+                xo += str([0, 1][i == name])
+            if {xo[2:9:3], xo[3:6], xo[0:9:3], xo[2:7:2], xo[1:9:3], xo[6:9], xo[0:9:4], xo[:3]} & {'111'}:
+                return name
+            else:
+                return None
+
+    def tie(self):
+        if '-' not in self.state:
+            return True
+        else:
+            return False
 
     def exit_game(self):
         self.game = False
@@ -46,19 +67,6 @@ class Player:
         while spot not in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
             spot = (input(f"“Type a number to place {self.name}”"))
         return int(spot)
-
-
-def win(board, name1, name2):
-    for name in [name1.name, name2.name]:
-        xo = ''
-        for i in board.state:
-            xo += str([0, 1][i == name])
-        if '-' not in board.state:
-            print(name + ' Tied!')
-            board.exit_game()
-        if {xo[2:9:3], xo[3:6], xo[0:9:3], xo[2:7:2], xo[1:9:3], xo[6:9], xo[0:9:4], xo[:3]} & {'111'}:
-            print(name + ' wins')
-            board.exit_game()
 
 
 ttt = Board('-')
