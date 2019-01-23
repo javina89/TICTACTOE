@@ -2,11 +2,11 @@ import textwrap
 
 
 class Board:
-    def __init__(self, space):
-        self.space = space
-        self.state = [self.space] * 9
+    def __init__(self):
+        self.state = ['-'] * 9
         self.game = True
         self.queue = []
+        self.sign = ['X', 'O']
 
     def __str__(self):
         return textwrap.dedent(f"""
@@ -15,9 +15,15 @@ class Board:
             3|2|1\t{self.state[2]}|{self.state[1]}|{self.state[0]}
         """)
 
-    def change_state(self, move, name):
+    def add_player(self, player):
+        if not self.sign:
+            raise Exception("only two players are supported at a time")
+        player.sign = self.sign.pop(0)
+        self.queue.append(player)
+
+    def change_state(self, move):
         if self.state[move - 1] == '-':
-            self.state[move - 1] = name
+            self.state[move - 1] = self.queue[0].sign
             return True
         else:
             return False
@@ -25,52 +31,47 @@ class Board:
     def run(self):
         print(self)
         while self.game:
-            while not self.queue[0].make_move(self.queue[0].take_input(), self):
+            while not self.change_state(self.queue[0].take_input()):
                 print("Invalid move, try again")
             print(self)
-            if self.win():
-                print(self.win() + 'wins')
-                self.exit_game()
-            if self.tie():
-                print('Tied')
-                self.exit_game()
-            self.change_turn()
+            if self.win() or self.tie():
+                self.game = False
+            else:
+                self.change_turn()
 
     def change_turn(self):
         self.queue.append(self.queue.pop(0))
 
     def win(self):
-        xo = ''
-        for i in self.state:
-            xo += str([0, 1][i == self.queue[0].name])
-        if {xo[2:9:3], xo[3:6], xo[0:9:3], xo[2:7:2], xo[1:9:3], xo[6:9], xo[0:9:4], xo[:3]} & {'111'}:
-            return self.queue[0].name
-        else:
-            return None
+        check_win = (self.state[2:9:3], self.state[3:6],
+                     self.state[0:9:3], self.state[2:7:2],
+                     self.state[1:9:3], self.state[6:9],
+                     self.state[0:9:4], self.state[:3])
+
+        if [self.queue[0].sign] * 3 in check_win:
+            print(self.queue[0].sign, "wins")
+            return True
 
     def tie(self):
-        return '-' not in self.state
-
-    def exit_game(self):
-        self.game = False
+        if '-' not in self.state:
+            print('Tied')
+            return True
+        else:
+            return False
 
 
 class Player:
-    def __init__(self, name, board):
-        self.name = name
-        board.queue.append(self)
-
-    def make_move(self, move, board):
-        return board.change_state(move, self.name)
+    def __init__(self):
+        self.sign = None
 
     def take_input(self):
         spot = ''
         while spot not in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
-            spot = (input(f"“Type a number to place {self.name}” "))
+            spot = (input(f"“Type a number to place {self.sign}” "))
         return int(spot)
 
 
-ttt = Board('-')
-x = Player('X', ttt)
-o = Player('O', ttt)
+ttt = Board()
+x = ttt.add_player(Player())
+o = ttt.add_player(Player())
 ttt.run()
